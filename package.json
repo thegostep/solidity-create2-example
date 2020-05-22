@@ -1,7 +1,8 @@
 {
   "name": "solidity-create2-deployer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "## Example Usage",
+  "homepage": "https://github.com/thegostep/solidity-create2-deployer",
   "main": "./src/index.js",
   "engines": {
     "node": ">=10"
@@ -23,5 +24,9 @@
     "ethereum",
     "create2"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thegostep/solidity-create2-deployer.git"
+  },
   "license": "MIT"
 }
