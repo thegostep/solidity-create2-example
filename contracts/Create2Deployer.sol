@@ -1,6 +1,6 @@
-pragma solidity >0.4.99 <0.6.0;
+pragma solidity 0.5.17;
 
-contract Factory {
+contract Create2Deployer {
   event Deployed(address addr, uint256 salt);
 
   function deploy(bytes memory code, uint256 salt) public {
