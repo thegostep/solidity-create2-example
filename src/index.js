@@ -7,6 +7,7 @@ const {
   factoryAddress,
   buildCreate2Address,
   buildBytecode,
+  parseLogs,
   numberToUint256
 } = require("./utils");
 
@@ -43,7 +44,9 @@ async function deployContract({
 
   const computedAddr = buildCreate2Address(numberToUint256(salt), bytecode);
 
-  const addr = result.events[0].args.addr.toLowerCase();
+  const logs = parseLogs(result, factory, 'Deployed')
+
+  const addr = logs[0].addr.toLowerCase();
   assert.equal(addr, computedAddr);
 
   return {
