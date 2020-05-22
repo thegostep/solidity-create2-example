@@ -1,6 +1,109 @@
-# Solidity `CREATE2` example
+[![Build Status](https://github.com/thegostep/solidity-create2-deployer/workflows/CI/badge.svg)](https://github.com/thegostep/solidity-create2-deployer/actions)
+
+# Solidity `CREATE2` Deployer
 
 > Example of how to use the [`CREATE2`](https://github.com/ethereum/EIPs/pull/1014) opcode released in the [Constantinople](https://github.com/paritytech/parity-ethereum/issues/8427) update for Ethereum.
+
+## Example Usage
+
+Deploy create2 contract:
+
+```js
+// import
+const {
+  ethers,
+  deployContract,
+  deployFactory,
+  getCreate2Address,
+  isDeployed
+} = require("solidity-create2-deployer");
+
+// declare deployment parameters
+const salt = "hello";
+const bytecode = "0x...";
+const privateKey = "0x...";
+const constructorTypes = ["address", "uint256", "..."];
+const constructorArgs = ["0x...", "123...", "..."];
+const provider = ethers.getDefaultProvider();
+const signer = new ethers.Wallet(privateKey, provider);
+
+// Calculate contract address
+const computedAddress = getCreate2Address({
+  salt: salt,
+  contractBytecode: bytecode,
+  constructorTypes: constructorTypes,
+  constructorArgs: constructorArgs
+});
+
+// Deploy contract
+const { txHash, address, receipt } = await deployContract({
+  salt: salt,
+  contractBytecode: bytecode,
+  constructorTypes: constructorTypes,
+  constructorArgs: constructorArgs,
+  signer: signer
+});
+
+// Query if contract deployed at address
+const success = await isDeployed(address, provider);
+
+// Deploy create2 factory (for local chains only)
+const factoryAddress = await deployFactory(provider);
+```
+
+## API Documentation
+
+```js
+/**
+ * Deploy contract using create2.
+ *
+ * Deploy an arbitrary contract using a create2 factory. Can be used with an ethers provider on any network.
+ *
+ * @param {Object} args
+ * @param {String} args.salt                Salt used to calculate deterministic create2 address.
+ * @param {String} args.contractBytecode    Compiled bytecode of the contract.
+ * @param {Object} args.signer              Ethers.js signer of the account from which to deploy the contract.
+ * @param {Array}  [args.constructorTypes]  Array of solidity types of the contract constructor.
+ * @param {Array}  [args.constructorArgs]   Array of arguments of the contract constructor.
+ *
+ * @return {Object} Returns object with `txHash`, `address` and `receipt` from the deployed contract.
+ */
+
+/**
+ * Calculate create2 address of a contract.
+ *
+ * Calculates deterministic create2 address locally.
+ *
+ * @param {Object} args
+ * @param {String} args.salt                Salt used to calculate deterministic create2 address.
+ * @param {String} args.contractBytecode    Compiled bytecode of the contract.
+ * @param {Array}  [args.constructorTypes]  Array of solidity types of the contract constructor.
+ * @param {Array}  [args.constructorArgs]   Array of arguments of the contract constructor.
+ *
+ * @return {String} Returns the address of the create2 contract.
+ */
+
+/**
+ * Determine if a given contract is deployed.
+ *
+ * Determines if a given contract is deployed at the address provided.
+ *
+ * @param {String} address  Address to query.
+ * @param {Object} provider Ethers.js provider.
+ *
+ * @return {Boolean} Returns true if address is a deployed contract.
+ */
+
+/**
+ * Deploy create2 factory for local development.
+ *
+ * Deploys the create2 factory locally for development purposes. Requires funding address `0x2287Fa6efdEc6d8c3E0f4612ce551dEcf89A357A` with eth to perform deployment.
+ *
+ * @param {Object} provider Ethers.js provider.
+ *
+ * @return {String} Returns the address of the create2 factory.
+ */
+```
 
 ## Tutorial
 
