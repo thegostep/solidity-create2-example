@@ -6,8 +6,6 @@
 
 ## Example Usage
 
-Deploy create2 contract:
-
 ```js
 // import
 const {
