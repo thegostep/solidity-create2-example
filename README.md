@@ -2,7 +2,7 @@
 
 # Solidity `CREATE2` Deployer
 
-> Example of how to use the [`CREATE2`](https://github.com/ethereum/EIPs/pull/1014) opcode released in the [Constantinople](https://github.com/paritytech/parity-ethereum/issues/8427) update for Ethereum.
+> Javascript deployer for contracts with [`CREATE2`](https://github.com/ethereum/EIPs/pull/1014) opcode released in the [Constantinople](https://github.com/paritytech/parity-ethereum/issues/8427) update for Ethereum.
 
 ## Example Usage
 
