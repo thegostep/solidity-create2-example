@@ -1,6 +1,6 @@
 {
   "name": "solidity-create2-deployer",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Javascript deployer for CREATE2 ethereum contracts.",
   "homepage": "https://github.com/thegostep/solidity-create2-deployer",
   "main": "./src/index.js",
