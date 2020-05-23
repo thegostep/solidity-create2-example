@@ -1,4 +1,9 @@
-[![Build Status](https://github.com/thegostep/solidity-create2-deployer/workflows/CI/badge.svg)](https://github.com/thegostep/solidity-create2-deployer/actions)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/thegostep/solidity-create2-deployer/CI)
+![npm](https://img.shields.io/npm/v/solidity-create2-deployer)
+![node-current](https://img.shields.io/node/v/solidity-create2-deployer)
+![GitHub last commit](https://img.shields.io/github/last-commit/thegostep/solidity-create2-deployer)
+![npm](https://img.shields.io/npm/dw/solidity-create2-deployer)
+![NPM](https://img.shields.io/npm/l/solidity-create2-deployer)
 
 # Solidity `CREATE2` Deployer
 
