@@ -2,7 +2,9 @@
 
 # Solidity `CREATE2` Deployer
 
-> Javascript deployer for contracts with [`CREATE2`](https://github.com/ethereum/EIPs/pull/1014) opcode released in the [Constantinople](https://github.com/paritytech/parity-ethereum/issues/8427) update for Ethereum.
+This library is a minimal utility for deploying ethereum contracts at detereministic addresss using `CREATE2`. It allows for contracts to be deployed at the same address on all networks.
+
+[`CREATE2`](https://github.com/ethereum/EIPs/pull/1014) opcode was released in the [Constantinople](https://github.com/paritytech/parity-ethereum/issues/8427) update for Ethereum.
 
 ## Example Usage
 
@@ -48,6 +50,14 @@ const success = await isDeployed(address, provider);
 // Deploy create2 factory (for local chains only)
 const factoryAddress = await deployFactory(provider);
 ```
+
+## Caveats
+
+Contracts deployed using this library need to follow these guidelines:
+
+- `msg.sender` cannot be used in the constructor as it will refer to the factory contract.
+- `tx.origin` should not bee used in the constructor as the deploy transaction can be front-run.
+- In order to produce a deterministic address on all networks, the salt and constructor parameters must be the same.
 
 ## API Documentation
 
