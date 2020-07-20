@@ -8,7 +8,7 @@ const {
   buildCreate2Address,
   buildBytecode,
   parseEvents,
-  numberToUint256,
+  saltToHex,
 } = require("./utils");
 
 /**
@@ -17,7 +17,7 @@ const {
  * Deploy an arbitrary contract using a create2 factory. Can be used with an ethers provider on any network.
  *
  * @param {Object} args
- * @param {String} args.salt                Salt used to calculate deterministic create2 address.
+ * @param {Number} args.salt                Salt used to calculate deterministic create2 address.
  * @param {String} args.contractBytecode    Compiled bytecode of the contract.
  * @param {Object} args.signer              Ethers.js signer of the account from which to deploy the contract.
  * @param {Array}  [args.constructorTypes]  Array of solidity types of the contract constructor.
@@ -32,6 +32,8 @@ async function deployContract({
   constructorTypes = [],
   constructorArgs = [],
 }) {
+  const saltHex = saltToHex(salt);
+
   const factory = new ethers.Contract(factoryAddress, factoryAbi, signer);
 
   const bytecode = buildBytecode(
@@ -40,9 +42,9 @@ async function deployContract({
     contractBytecode
   );
 
-  const result = await (await factory.deploy(bytecode, salt)).wait();
+  const result = await (await factory.deploy(bytecode, saltHex)).wait();
 
-  const computedAddr = buildCreate2Address(numberToUint256(salt), bytecode);
+  const computedAddr = buildCreate2Address(saltHex, bytecode);
 
   const logs = parseEvents(result, factory.interface, "Deployed");
 
@@ -62,7 +64,7 @@ async function deployContract({
  * Calculates deterministic create2 address locally.
  *
  * @param {Object} args
- * @param {String} args.salt                Salt used to calculate deterministic create2 address.
+ * @param {Number} args.salt                Salt used to calculate deterministic create2 address.
  * @param {String} args.contractBytecode    Compiled bytecode of the contract.
  * @param {Array}  [args.constructorTypes]  Array of solidity types of the contract constructor.
  * @param {Array}  [args.constructorArgs]   Array of arguments of the contract constructor.
@@ -80,7 +82,7 @@ function getCreate2Address({
     constructorArgs,
     contractBytecode
   );
-  return buildCreate2Address(numberToUint256(salt), bytecode);
+  return buildCreate2Address(saltToHex(salt), bytecode);
 }
 
 /**

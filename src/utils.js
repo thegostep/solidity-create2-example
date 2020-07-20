@@ -69,6 +69,8 @@ function numberToUint256(value) {
   return `0x${"0".repeat(64 - hex.length)}${hex}`;
 }
 
+const saltToHex = (salt) => ethers.utils.id(salt);
+
 function encodeParam(dataType, data) {
   const abiCoder = ethers.utils.defaultAbiCoder;
   return abiCoder.encode([dataType], [data]);
@@ -95,6 +97,7 @@ module.exports = {
   factoryBytecode,
   buildCreate2Address,
   buildBytecode,
+  saltToHex,
   numberToUint256,
   encodeParam,
   encodeParams,
