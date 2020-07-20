@@ -7,8 +7,8 @@ const {
   factoryAddress,
   buildCreate2Address,
   buildBytecode,
-  parseLogs,
-  numberToUint256
+  parseEvents,
+  numberToUint256,
 } = require("./utils");
 
 /**
@@ -30,7 +30,7 @@ async function deployContract({
   contractBytecode,
   signer,
   constructorTypes = [],
-  constructorArgs = []
+  constructorArgs = [],
 }) {
   const factory = new ethers.Contract(factoryAddress, factoryAbi, signer);
 
@@ -44,15 +44,15 @@ async function deployContract({
 
   const computedAddr = buildCreate2Address(numberToUint256(salt), bytecode);
 
-  const logs = parseLogs(result, factory, 'Deployed')
+  const logs = parseEvents(result, factory.interface, "Deployed");
 
-  const addr = logs[0].addr.toLowerCase();
+  const addr = logs[0].args.addr.toLowerCase();
   assert.equal(addr, computedAddr);
 
   return {
     txHash: result.transactionHash,
     address: addr,
-    receipt: result
+    receipt: result,
   };
 }
 
@@ -73,7 +73,7 @@ function getCreate2Address({
   salt,
   contractBytecode,
   constructorTypes = [],
-  constructorArgs = []
+  constructorArgs = [],
 }) {
   const bytecode = buildBytecode(
     constructorTypes,
@@ -126,5 +126,5 @@ module.exports = {
   deployContract,
   deployFactory,
   getCreate2Address,
-  isDeployed
+  isDeployed,
 };

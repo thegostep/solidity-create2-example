@@ -12,17 +12,17 @@ const factoryAbi = [
         indexed: false,
         internalType: "address",
         name: "addr",
-        type: "address"
+        type: "address",
       },
       {
         indexed: false,
         internalType: "uint256",
         name: "salt",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "Deployed",
-    type: "event"
+    type: "event",
   },
   {
     constant: false,
@@ -30,20 +30,20 @@ const factoryAbi = [
       {
         internalType: "bytes",
         name: "code",
-        type: "bytes"
+        type: "bytes",
       },
       {
         internalType: "uint256",
         name: "salt",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "deploy",
     outputs: [],
     payable: false,
     stateMutability: "nonpayable",
-    type: "function"
-  }
+    type: "function",
+  },
 ];
 
 function buildBytecode(constructorTypes, constructorArgs, contractBytecode) {
@@ -58,7 +58,7 @@ function buildCreate2Address(saltHex, byteCode) {
   return `0x${ethers.utils
     .keccak256(
       `0x${["ff", factoryAddress, saltHex, ethers.utils.keccak256(byteCode)]
-        .map(x => x.replace(/0x/, ""))
+        .map((x) => x.replace(/0x/, ""))
         .join("")}`
     )
     .slice(-40)}`.toLowerCase();
@@ -84,22 +84,10 @@ async function isContract(address) {
   return code.slice(2).length > 0;
 }
 
-function parseLogs(receipt, contract, eventName) {
-  const filter = receipt.logs.filter(e => {
-    return (
-      e.topics.find(t => {
-        return contract.interface.events[eventName].topic == t
-      }) !== undefined
-    )
-  })
-
-  const res = []
-  for (let f of filter) {
-    res.push(contract.interface.events[eventName].decode(f.data, f.topics))
-  }
-
-  return res
-}
+const parseEvents = (receipt, interface, eventName) =>
+  receipt.logs
+    .map((log) => interface.parseLog(log))
+    .filter((log) => log.name === eventName);
 
 module.exports = {
   factoryAddress,
@@ -110,6 +98,6 @@ module.exports = {
   numberToUint256,
   encodeParam,
   encodeParams,
-  parseLogs,
-  isContract
+  parseEvents,
+  isContract,
 };
