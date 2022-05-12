@@ -72,8 +72,14 @@ export const numberToUint256 = (value: number) => {
   return `0x${'0'.repeat(64 - hex.length)}${hex}`
 }
 
-export const saltToHex = (salt: string | number) =>
-  ethers.utils.id(salt.toString())
+export const saltToHex = (salt: string | number) => {
+  salt = salt.toString()
+  if(ethers.utils.isHexString(salt)){
+    return salt
+  }
+  
+  return ethers.utils.id(salt)
+}
 
 export const encodeParam = (dataType: any, data: any) => {
   const abiCoder = ethers.utils.defaultAbiCoder
