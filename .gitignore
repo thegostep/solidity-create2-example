@@ -1,12 +1,20 @@
 .DS_Store
 build
 node_modules
+.env
 
 parity
 
-node_modules
 dist
 
-#Buidler files
+# Hardhat files
 cache
 artifacts
+
+# TypeChain files
+/typechain
+/typechain-types
+
+# solidity-coverage files
+/coverage
+/coverage.json

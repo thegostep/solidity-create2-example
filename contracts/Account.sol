@@ -1,21 +1,23 @@
-pragma solidity >0.4.99 <0.6.0;
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.8.19;
 
 contract Account {
-  address public owner;
+    address public owner;
 
-  constructor(address payable _owner) public {
-    owner = _owner;
-  }
+    constructor(address payable _owner) {
+        owner = _owner;
+    }
 
-  function setOwner(address _owner) public {
-    require(msg.sender == owner);
-    owner = _owner;
-  }
+    function setOwner(address _owner) public {
+        require(msg.sender == owner);
+        owner = _owner;
+    }
 
-  function destroy(address payable recipient) public {
-    require(msg.sender == owner);
-    selfdestruct(recipient);
-  }
+    function destroy(address payable recipient) public {
+        require(msg.sender == owner);
+        recipient.transfer(address(this).balance);
+        // selfdestruct(recipient);
+    }
 
-  function() payable external {}
+    receive() external payable {}
 }

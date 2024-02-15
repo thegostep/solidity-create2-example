@@ -1,6 +1,6 @@
-import { ethers } from '@nomiclabs/buidler'
-import { Signer } from 'ethers'
 import { assert } from 'chai'
+import { Signer } from 'ethers'
+import { ethers } from 'hardhat'
 
 import {
   deployContract,
@@ -22,7 +22,7 @@ describe('Happy Path', function () {
     await (
       await signer.sendTransaction({
         to: '0x2287Fa6efdEc6d8c3E0f4612ce551dEcf89A357A',
-        value: ethers.utils.parseEther('1'),
+        value: ethers.parseEther('1'),
       })
     ).wait()
     const factoryAddress = await deployFactory(ethers.provider)

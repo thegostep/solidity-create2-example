@@ -1,6 +1,6 @@
 {
   "name": "solidity-create2-deployer",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Javascript deployer for CREATE2 ethereum contracts.",
   "homepage": "https://github.com/thegostep/solidity-create2-deployer",
   "main": "./dist/src/index.js",
@@ -9,25 +9,32 @@
     "node": ">=10"
   },
   "dependencies": {
-    "ethers": "^5.0.14"
+    "ethers": "^6.11.0"
   },
   "devDependencies": {
-    "@nomiclabs/buidler": "^1.4.7",
-    "@nomiclabs/buidler-ethers": "^2.0.0",
-    "@nomiclabs/buidler-waffle": "^2.1.0",
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.0",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.0",
+    "@typechain/ethers-v6": "^0.5.0",
+    "@typechain/hardhat": "^9.0.0",
     "@types/chai": "^4.2.12",
     "@types/mocha": "^8.0.3",
     "@types/node": "^14.11.2",
     "chai": "^4.2.0",
-    "ethereum-waffle": "^3.1.0",
+    "hardhat": "^2.19.5",
+    "hardhat-gas-reporter": "^1.0.8",
     "prettier": "^2.1.2",
     "prettier-plugin-solidity": "^1.0.0-alpha.57",
-    "solc": "^0.7.1",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.0.3"
+    "solc": "^0.8.24",
+    "solidity-coverage": "^0.8.1",
+    "ts-node": "^10.9.2",
+    "typechain": "^8.3.0",
+    "typescript": "^5.3.3"
   },
   "scripts": {
-    "test": "yarn buidler test"
+    "test": "yarn hardhat test"
   },
   "author": "@thegostep",
   "tags": [

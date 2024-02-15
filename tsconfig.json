@@ -1,17 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2020",
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "declaration": true,
     "outDir": "dist"
   },
   "include": ["test", "./artifacts/**/*.json"],
-  "files": [
-    "buidler.config.ts",
-    "./node_modules/@nomiclabs/buidler-ethers/src/type-extensions.d.ts",
-    "./node_modules/@nomiclabs/buidler-waffle/src/type-extensions.d.ts"
-  ]
+  "files": ["hardhat.config.ts"]
 }
