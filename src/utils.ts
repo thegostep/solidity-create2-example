@@ -1,6 +1,5 @@
-import { ethers } from 'ethers'
-import { Interface } from 'ethers/lib/utils'
-import { TransactionReceipt, Provider } from '@ethersproject/providers'
+import { Provider, TransactionReceipt } from '@ethersproject/providers'
+import { Interface, ethers } from 'ethers'
 
 export const factoryAddress = '0x4a27c059FD7E383854Ea7DE6Be9c390a795f6eE3'
 export const factoryBytecode =
@@ -58,9 +57,9 @@ export const buildBytecode = (
 
 export const buildCreate2Address = (saltHex: string, byteCode: string) => {
   const factoryAddress = '0x4a27c059FD7E383854Ea7DE6Be9c390a795f6eE3'
-  return `0x${ethers.utils
+  return `0x${ethers
     .keccak256(
-      `0x${['ff', factoryAddress, saltHex, ethers.utils.keccak256(byteCode)]
+      `0x${['ff', factoryAddress, saltHex, ethers.keccak256(byteCode)]
         .map((x) => x.replace(/0x/, ''))
         .join('')}`,
     )
@@ -74,20 +73,20 @@ export const numberToUint256 = (value: number) => {
 
 export const saltToHex = (salt: string | number) => {
   salt = salt.toString()
-  if(ethers.utils.isHexString(salt)){
+  if (ethers.isHexString(salt)) {
     return salt
   }
-  
-  return ethers.utils.id(salt)
+
+  return ethers.id(salt)
 }
 
 export const encodeParam = (dataType: any, data: any) => {
-  const abiCoder = ethers.utils.defaultAbiCoder
+  const abiCoder = ethers.AbiCoder.defaultAbiCoder()
   return abiCoder.encode([dataType], [data])
 }
 
 export const encodeParams = (dataTypes: any[], data: any[]) => {
-  const abiCoder = ethers.utils.defaultAbiCoder
+  const abiCoder = ethers.AbiCoder.defaultAbiCoder()
   return abiCoder.encode(dataTypes, data)
 }
 
@@ -103,4 +102,4 @@ export const parseEvents = (
 ) =>
   receipt.logs
     .map((log) => contractInterface.parseLog(log))
-    .filter((log) => log.name === eventName)
+    .filter((log) => log?.name === eventName)

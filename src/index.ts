@@ -1,13 +1,13 @@
+import { TransactionReceipt } from '@ethersproject/providers'
 import assert from 'assert'
-import { ethers, Signer } from 'ethers'
-import { Provider, TransactionReceipt } from '@ethersproject/providers'
+import { Provider, Signer, ethers } from 'ethers'
 
 import {
-  factoryAbi,
-  factoryBytecode,
-  factoryAddress,
-  buildCreate2Address,
   buildBytecode,
+  buildCreate2Address,
+  factoryAbi,
+  factoryAddress,
+  factoryBytecode,
   parseEvents,
   saltToHex,
 } from './utils'
@@ -47,7 +47,7 @@ export async function deployContract({
 
   const logs = parseEvents(result, factory.interface, 'Deployed')
 
-  const addr = logs[0].args.addr.toLowerCase()
+  const addr = logs[0]?.args.addr.toLowerCase()
   assert.strictEqual(addr, computedAddr)
 
   return {
@@ -107,6 +107,7 @@ export async function deployFactory(provider: Provider) {
     signer,
   )
   const factory = await Factory.deploy()
-  assert.strictEqual(factory.address, factoryAddress)
-  return factory.address
+  const address = await factory.getAddress()
+  assert.strictEqual(address, factoryAddress)
+  return address
 }
